@@ -29,7 +29,11 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
     // ---------------------------------------------------------------
 
     public MyArrayList(int initialCapacity) {
-        this.arr = (E[]) new Object[initialCapacity];
+        if(initialCapacity > -1){
+            this.arr = (E[]) new Object[initialCapacity];
+        } else{
+            throw new IllegalArgumentException();
+        }
     }
 
     public MyArrayList() {
@@ -119,13 +123,9 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
     public boolean add(E e) {
         /* ska implementeras */
         try {
-                E[] temp = (E[])new Object[this.arr.length+1];
-                for (int i = 0; i < this.arr.length; i++) {
-                    temp[i] = this.arr[i];
-                }
-                temp[temp.length-1] = e;
-                this.arr = temp;
-            return true;
+                ensureCapacity(this.arr.length + 1);
+                this.arr[this.arr.length-1] = e;
+                return true;
         } catch (Error err) {
             return false; /* bara med för att Eclipse inte ska klaga */
         }
@@ -154,8 +154,14 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 
     @Override
     public E remove(int index) {
-        this.arr[index] = null;
-        return null; /* bara med för att Eclipse inte ska klaga */
+        int moved = this.arr.length - 1 - index;
+        E oldVal = (E) this.arr[index];
+        if(moved > 0){
+            for (int i = index; i < this.arr.length-1; i++) {
+                this.arr[i] = this.arr[i+1];
+            }
+        }
+        return oldVal; /* bara med för att Eclipse inte ska klaga */
     }
 
     protected void removeRange(int fromIndex, int toIndex) {
@@ -179,6 +185,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
                 return i;
             }
         }
+
         return -1; /* bara med för att Eclipse inte ska klaga */
     }
 
@@ -187,7 +194,12 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
         /* ska implementeras */
         for (int i = 0; i < this.arr.length; i++) {
             if(this.arr[i] == o){
-                this.arr[i] = null;
+                int moved = this.arr.length - 1 - i;
+                if(moved > 0){
+                    for (int j = i; j < this.arr.length-1; j++) {
+                        this.arr[j] = this.arr[j+1];
+                    }
+                }
                 return true;
             }
         }
@@ -210,8 +222,11 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
     @Override
     public Object clone() {
         /* ska implementeras */
-        E[] temp = this.arr;
-        return temp;
+        MyArrayList<E> myArr = new MyArrayList<>();
+        for (int i = 0; i < this.arr.length; i++) {
+            myArr.add(this.arr[i]);
+        }
+        return myArr;
     }
 
     @Override
