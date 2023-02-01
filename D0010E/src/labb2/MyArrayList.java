@@ -16,6 +16,7 @@ import java.util.function.UnaryOperator;
 public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
         Collection<E>, List<E>, RandomAccess {
     public E[] arr;
+    public int storlek = 0;
     public static final Object[] EMPTYOBJECT = {};
 
     // ---------------------------------------------------------------
@@ -46,7 +47,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 
     @Override
     public int size() {
-        return this.arr.length;
+        return this.storlek;
         //return -1; /* bara med för att Eclipse inte ska klaga */
     }
 
@@ -99,6 +100,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 
     @Override
     public void add(int index, E element) {
+        this.storlek++;
         if(this.arr.length < index){
             E[] temp = (E[]) new Object[index];
             for (int i = 0; i < this.arr.length; i++) {
@@ -127,6 +129,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
         try {
                 ensureCapacity(this.arr.length + 1);
                 this.arr[this.arr.length-1] = e;
+                this.storlek++;
                 return true;
         } catch (Error err) {
             return false; /* bara med för att Eclipse inte ska klaga */
