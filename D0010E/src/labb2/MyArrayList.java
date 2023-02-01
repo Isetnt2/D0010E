@@ -183,7 +183,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
     public int indexOf(Object o) {
         /* ska implementeras */
         for (int i = 0; i < this.arr.length; i++) {
-            if(this.arr[i] == o){
+            if(this.arr[i].equals(o)){
                 return i;
             }
         }
@@ -195,7 +195,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
     public boolean remove(Object o) {
         /* ska implementeras */
         for (int i = 0; i < this.arr.length; i++) {
-            if(this.arr[i] == o){
+            if(this.arr[i].equals(o)){
                 int moved = this.arr.length - 1 - i;
                 if(moved > 0){
                     for (int j = i; j < this.arr.length-1; j++) {
@@ -212,7 +212,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
     public boolean contains(Object o) {
         /* ska implementeras */
         for (int i = 0; i < this.arr.length; i++) {
-            if(this.arr[i] == o){
+            if(this.arr[i].equals(o)){
                 return true;
             }
         }
