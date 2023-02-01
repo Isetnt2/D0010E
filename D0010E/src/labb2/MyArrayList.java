@@ -15,7 +15,8 @@ import java.util.function.UnaryOperator;
 @SuppressWarnings("serial")
 public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
         Collection<E>, List<E>, RandomAccess {
-    public E[] arr = (E[]) new Object[0];
+    public E[] arr;
+    public static final Object[] EMPTYOBJECT = {};
 
     // ---------------------------------------------------------------
 
@@ -38,7 +39,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 
     public MyArrayList() {
 
-        this.arr = (E[]) new Object[0];
+        this.arr = (E[])EMPTYOBJECT;
     }
 
     // -- 1 --
@@ -86,7 +87,8 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
         int tempIndex = 0;
         for (int i = 0; i < this.arr.length; i++) {
             if(this.arr[i] != null){
-                temp[i] = this.arr[i];
+                temp[i-tempIndex] = this.arr[i];
+            } else {
                 tempIndex++;
             }
         }
